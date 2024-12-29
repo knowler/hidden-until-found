@@ -1,5 +1,7 @@
-// TODO: find a way to support Safari?
-if (!("onbeforematch" in document) && CSS.supports("(user-select: none)")) {
+(function() {
+	// TODO: find a way to support Safari?
+	if ("onbeforematch" in document || !CSS.supports("(user-select: none)") return;
+
 	const sheet = new CSSStyleSheet();
 	sheet.replaceSync(`
 			@supports (user-select: none) {
@@ -52,6 +54,7 @@ if (!("onbeforematch" in document) && CSS.supports("(user-select: none)")) {
 			// Store parts of the selection
 			const {anchorNode, anchorOffset, focusNode, focusOffset} = selection;
 
+			// TODO: add `onbeforematch` to `Element`?
 			const cancelled = foundElement.dispatchEvent(
 				new Event("beforematch", { bubbles: true })
 			);
@@ -63,6 +66,7 @@ if (!("onbeforematch" in document) && CSS.supports("(user-select: none)")) {
 			const clone = foundElement.cloneNode();
 			clone.removeAttribute("hidden");
 			clone.append(...foundElement.childNodes);
+			// TODO: do we need to cancel for `window`?
 			document.addEventListener("selectionchange", event => event.stopImmediatePropagation(), { capture: true, once: true });
 			foundElement.replaceWith(clone);
 
@@ -75,4 +79,4 @@ if (!("onbeforematch" in document) && CSS.supports("(user-select: none)")) {
 			selection.addRange(range);
 		}
 	});
-}
+})();
