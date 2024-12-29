@@ -1,6 +1,6 @@
 (function() {
 	// TODO: find a way to support Safari?
-	if ("onbeforematch" in document || !CSS.supports("(user-select: none)") return;
+	if ("onbeforematch" in document || !CSS.supports("(user-select: none)")) return;
 
 	const sheet = new CSSStyleSheet();
 	sheet.replaceSync(`
