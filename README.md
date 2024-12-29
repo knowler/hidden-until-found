@@ -16,11 +16,5 @@ observer picks up elements as they are added to the DOM.
 
 - Currently does not work in shadow roots.
 - Doesn’t work in Safari. So, it’s a good idea to include a fallback to get to
-	the content if there’s no other way (e.g. perhaps make that content visible by
-	default if it makes sense).
-
-## Improvements
-
-- A mutation observer is probably a heavy handed way to accomplish this, it
-	might be worth adding the styles and then deferring the shadow root stuff
-	until after.
+  the content if there’s no other way (e.g. perhaps make that content visible by
+  default if it makes sense).
