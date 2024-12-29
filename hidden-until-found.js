@@ -23,18 +23,13 @@
 		for (const entry of entries) {
 			switch (entry.type) {
 				case "attributes":
-					// TODO: handle programmatic cases
+					if (entry.target.getAttribute("hidden") === "until-found")
+						addShadow(entry.target);
 					break;
 				case "childList":
-					for (const node of entry.addedNodes) {
-						if (node.hasAttribute?.("hidden") && node.getAttribute("hidden") === "until-found") {
-							// TODO: what do we do if we already have a shadow root??
-							node.attachShadow({ mode: "open" });
-							// 1. `aria-hidden=true` prevents the content from being exposed to AT.
-							// 2. `tabindex=-1` removes any interactive content from the tab order.
-							node.shadowRoot.innerHTML = "<slot aria-hidden=true tabindex=-1></slot>";
-						}
-					}
+					for (const node of entry.addedNodes)
+						if (node.getAttribute?.("hidden") === "until-found")
+							addShadow(node);
 					break;
 			}
 		}
@@ -81,5 +76,14 @@
 	function stopSelectionChange() {
 		for (const target of [window, document])
 			target.addEventListener("selectionchange", event => event.stopImmediatePropagation(), { capture: true, once: true });
+	}
+
+	function addShadow(element) {
+		if (element.shadowRoot) return;
+		// TODO: what do we do if we already have a shadow root??
+		element.attachShadow({ mode: "open" });
+		// 1. `aria-hidden=true` prevents the content from being exposed to AT.
+		// 2. `tabindex=-1` removes any interactive content from the tab order.
+		element.shadowRoot.innerHTML = "<slot aria-hidden=true tabindex=-1></slot>";
 	}
 })();
