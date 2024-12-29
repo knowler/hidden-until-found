@@ -66,8 +66,7 @@
 			const clone = foundElement.cloneNode();
 			clone.removeAttribute("hidden");
 			clone.append(...foundElement.childNodes);
-			// TODO: do we need to cancel for `window`?
-			document.addEventListener("selectionchange", event => event.stopImmediatePropagation(), { capture: true, once: true });
+			stopSelectionChange();
 			foundElement.replaceWith(clone);
 
 			// Clone selection (a bit naïve)
@@ -75,8 +74,13 @@
 			const range = document.createRange();
 			range.setStart(anchorNode, anchorOffset);
 			range.setEnd(focusNode, focusOffset);
-			document.addEventListener("selectionchange", event => event.stopImmediatePropagation(), { capture: true, once: true });
+			stopSelectionChange();
 			selection.addRange(range);
 		}
 	});
+
+	function stopSelectionChange() {
+		for (const target of [window, document])
+			target.addEventListener("selectionchange", event => event.stopImmediatePropagation(), { capture: true, once: true });
+	}
 })();
