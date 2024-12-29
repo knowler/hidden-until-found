@@ -52,6 +52,12 @@ if (!("onbeforematch" in document) && CSS.supports("(user-select: none)")) {
 			// Store parts of the selection
 			const {anchorNode, anchorOffset, focusNode, focusOffset} = selection;
 
+			const cancelled = foundElement.dispatchEvent(
+				new Event("beforematch", { bubbles: true })
+			);
+
+			if (cancelled) return;
+
 			// Clone element to remove the shadow root
 			// TODO: child form elements probably lost form state this way (not ideal).
 			const clone = foundElement.cloneNode();
