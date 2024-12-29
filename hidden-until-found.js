@@ -43,7 +43,6 @@
 	hiddenUntilFoundObserver.observe(document.documentElement, {
 		subtree: true,
 		childList: true,
-		attributeOldValue: true,
 		attributeFilter: ["hidden"],
 	});
 
