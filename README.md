@@ -12,9 +12,20 @@ The script should be loaded before any stylesheets and any body content to
 ensure the anonymous cascade layer we use gets set first and that the mutation
 observer picks up elements as they are added to the DOM.
 
+```html
+<!doctype html>
+<script src=/path/to/hidden-until-found.js></script>
+<!-- Load before your own stylesheets if you’re using cascade layers -->
+<link rel=stylesheet href=main.css>
+<!-- More importantly, make sure it loads before contents -->
+<p hidden=until-found>Hello, World!
+```
+
 ## Limitations
 
-- Currently does not work in shadow roots.
-- Doesn’t work in Safari. So, it’s a good idea to include a fallback to get to
-  the content if there’s no other way (e.g. perhaps make that content visible by
-  default if it makes sense).
+- Does not work inside of shadow roots.
+	- Polyfilling declarative shadow DOM is heavy (i.e. you need to walk every
+		element) and selection changes inside the shadow DOM are complicated in
+		Firefox.
+- Does not work in Safari.
+	- So, this is really only relevant for Firefox at this point.
