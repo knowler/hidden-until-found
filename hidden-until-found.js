@@ -4,18 +4,16 @@
 
 	const sheet = new CSSStyleSheet();
 	sheet.replaceSync(`
-			@supports (user-select: none) {
-				@layer {
-					[hidden="until-found"] {
-						display: revert;
-						content-visibility: auto;
-						contain: size layout paint style;
-						contain-intrinsic-size: 0;
-						user-select: none;
-					}
-				}
+		@layer {
+			[hidden="until-found"] {
+				display: revert;
+				content-visibility: auto;
+				contain: size layout paint style;
+				contain-intrinsic-size: 0;
+				user-select: none;
 			}
-		`);
+		}
+	`);
 
 	document.adoptedStyleSheets.push(sheet);
 
