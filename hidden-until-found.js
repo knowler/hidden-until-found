@@ -55,7 +55,7 @@
 			const {anchorNode, anchorOffset, focusNode, focusOffset} = selection;
 
 			// TODO: add `onbeforematch` to `Element`?
-			const cancelled = foundElement.dispatchEvent(
+			const cancelled = !foundElement.dispatchEvent(
 				new Event("beforematch", { bubbles: true })
 			);
 
