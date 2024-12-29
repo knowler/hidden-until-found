@@ -1,10 +1,19 @@
 <!doctype html>
+<html lang=en-ca>
 <meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<script type="module" src="https://esm.sh/invokers-polyfill"></script>
-<script src="./hidden-until-found.js"></script>
+<meta name=color-scheme content="dark light">
+<meta name=viewport content=width=device-width,initial-scale=1>
+<title>hidden=until-found polyfill demo</title>
+<script type=module src=https://esm.sh/invokers-polyfill></script>
+<script src=./hidden-until-found.js></script>
+<style>
+:root {
+	font-family: system-ui, sans-serif;
+	font-feature-settings: "ss06";
+}
+</style>
 <body id=body>
-	<button commandfor="body" command="--add-hidden-until-found-element">Add <code>hidden=until-found</code> element</button>
+	<button commandfor=body command=--add-hidden-until-found-element>Add <code>hidden=until-found</code> element</button>
 	<script defer>
 		document.body.addEventListener("command", event => {
 			if (event.command === "--add-hidden-until-found-element") {
@@ -15,5 +24,6 @@
 			}
 		});
 	</script>
-	<p hidden=until-found>Lorem</p>
-	<p hidden=until-found>Lorem <button onclick="console.log('hello')">Hello</button></p>
+	<p>Search for “Lorem” (this will be the first result)
+	<p hidden=until-found>Lorem
+	<p hidden=until-found>Lorem <button onclick="console.log('hello')">Hello</button>
