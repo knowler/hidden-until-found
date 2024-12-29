@@ -63,6 +63,7 @@ if (!("onbeforematch" in document) && CSS.supports("(user-select: none)")) {
 			const clone = foundElement.cloneNode();
 			clone.removeAttribute("hidden");
 			clone.append(...foundElement.childNodes);
+			document.addEventListener("selectionchange", event => event.stopImmediatePropagation(), { capture: true, once: true });
 			foundElement.replaceWith(clone);
 
 			// Clone selection (a bit naïve)
@@ -70,6 +71,7 @@ if (!("onbeforematch" in document) && CSS.supports("(user-select: none)")) {
 			const range = document.createRange();
 			range.setStart(anchorNode, anchorOffset);
 			range.setEnd(focusNode, focusOffset);
+			document.addEventListener("selectionchange", event => event.stopImmediatePropagation(), { capture: true, once: true });
 			selection.addRange(range);
 		}
 	});
