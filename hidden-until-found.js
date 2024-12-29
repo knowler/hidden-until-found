@@ -40,12 +40,9 @@
 	});
 
 	document.addEventListener("selectionchange", event => {
-		const selection = document.getSelection();
-		const foundElement = selection.anchorNode?.parentElement.closest("[hidden=until-found]");
-		if (foundElement) {
-			// Store parts of the selection
-			const {anchorNode, anchorOffset, focusNode, focusOffset} = selection;
+		const foundElement = document.getSelection().anchorNode?.parentElement.closest("[hidden=until-found]");
 
+		if (foundElement) {
 			// TODO: add `onbeforematch` to `Element`?
 			const cancelled = !foundElement.dispatchEvent(
 				new Event("beforematch", { bubbles: true })
@@ -53,28 +50,12 @@
 
 			if (cancelled) return;
 
-			// Clone element to remove the shadow root
-			// TODO: child form elements probably lost form state this way (not ideal).
-			const clone = foundElement.cloneNode();
-			clone.removeAttribute("hidden");
-			clone.append(...foundElement.childNodes);
-			stopSelectionChange();
-			foundElement.replaceWith(clone);
-
-			// Clone selection (a bit naïve)
-			// TODO: how do we handle “highlight all”?
-			const range = document.createRange();
-			range.setStart(anchorNode, anchorOffset);
-			range.setEnd(focusNode, focusOffset);
-			stopSelectionChange();
-			selection.addRange(range);
+			foundElement.removeAttribute("hidden");
+			const slot = foundElement.shadowRoot.querySelector("slot");
+			slot.removeAttribute("tabindex");
+			slot.removeAttribute("aria-hidden");
 		}
 	});
-
-	function stopSelectionChange() {
-		for (const target of [window, document])
-			target.addEventListener("selectionchange", event => event.stopImmediatePropagation(), { capture: true, once: true });
-	}
 
 	function addShadow(element) {
 		if (element.shadowRoot) return;
