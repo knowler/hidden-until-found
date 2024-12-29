@@ -40,7 +40,7 @@
 		}
 	});
 
-	hiddenUntilFoundObserver.observe(document.documentElement, {
+	hiddenUntilFoundObserver.observe(document, {
 		subtree: true,
 		childList: true,
 		attributeFilter: ["hidden"],
