@@ -22,17 +22,9 @@
 
 	const hiddenUntilFoundObserver = new MutationObserver(entries => {
 		for (const entry of entries) {
-			switch (entry.type) {
-				case "attributes":
-					if (entry.target.getAttribute("hidden") === "until-found")
-						addShadow(entry.target);
-					break;
-				case "childList":
-					for (const node of entry.addedNodes)
-						if (node.getAttribute?.("hidden") === "until-found")
-							addShadow(node);
-					break;
-			}
+			if (entry.type === "attributes" && entry.target.getAttribute("hidden") === "until-found") addShadow(entry.target);
+			else if (entry.type === "childList")
+				for (const node of entry.addedNodes) if (node.getAttribute?.("hidden") === "until-found") addShadow(node);
 		}
 	});
 
