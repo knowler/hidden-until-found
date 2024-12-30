@@ -4,18 +4,13 @@
 
 	const sheet = new CSSStyleSheet();
 	sheet.replaceSync(`
-		@layer {
-			[hidden="until-found"] {
-				display: revert;
-				content-visibility: auto;
-				contain: size layout paint style;
-				contain-intrinsic-size: 0;
-				user-select: none;
-			}
+		:host([hidden="until-found"]) {
+			display: revert;
+			content-visibility: auto;
+			contain: size;
+			user-select: none;
 		}
 	`);
-
-	document.adoptedStyleSheets.push(sheet);
 
 	const hiddenUntilFoundObserver = new MutationObserver(entries => {
 		for (const entry of entries) {
@@ -64,5 +59,6 @@
 		// 1. `aria-hidden=true` prevents the content from being exposed to AT.
 		// 2. `tabindex=-1` removes any interactive content from the tab order.
 		element.shadowRoot.innerHTML = "<slot aria-hidden=true tabindex=-1></slot>";
+		element.shadowRoot.adoptedStyleSheets = [sheet];
 	}
 })();
