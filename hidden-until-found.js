@@ -9,6 +9,14 @@
 			content-visibility: auto;
 			contain: size;
 			user-select: none;
+
+			slot {
+				color: transparent;
+			}
+
+			::slotted(*) {
+				opacity: 0 !important;
+			}
 		}
 	`);
 
