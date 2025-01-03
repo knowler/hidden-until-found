@@ -9,6 +9,7 @@
 			content-visibility: auto;
 			contain: size;
 			user-select: none;
+			background-clip: initial !important;
 
 			slot {
 				color: transparent;
