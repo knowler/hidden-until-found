@@ -13,6 +13,7 @@
 
 			slot {
 				color: transparent;
+				pointer-events: none;
 			}
 
 			::slotted(*) {
